@@ -1,0 +1,149 @@
+<%-include('header.ejs')%>
+<div class="container">
+    <div class="row p-5 align-items-center justify-content-center">
+<h3>DRIVER PROFILE</h3>
+<div class="col-md-12 rounded shadow bg-white p-4 mt-4">
+    <div class="row">
+<div class="col-md-12 mb-3">
+    <img src="/images/<%-driver.driver_image%>" class="shadow" style="height: 100px;width: 100px; margin: 0px auto;" id="pfp">
+</div>
+<div class="col-md-4 mb-3">
+    
+        <label class="mb-2"> Payment (per Month)* :</label>
+        <input type="text" required value="<%-driver.salary%>" readonly class="form-control">
+</div>
+        <div class="col-md-4 mb-3">
+        <form method="post" enctype="multipart/form-data" action="/driver/update-driver/<%-driver.driver_details_id%>" id="myform">
+
+ 
+            <label class="mb-2">Name* :</label>
+            <input type="text" required value="<%-driver.driver_name%>" name="driver_name"  class="form-control">
+        </div>
+        <div class="col-md-4 mb-3">
+            <label class="mb-2">Image* :</label>
+            <input type="file" onchange="setImage()"  name="img" class="form-control">
+        </div>
+        <div class="col-md-4 mb-3">
+            <label class="mb-2">Contact Number* :</label>
+            <input type="number" required value="<%-driver.driver_mobile%>" name="driver_mobile" class="form-control">
+        </div>
+        <div class="col-md-4 mb-3">
+            <label class="mb-2"> Password* :</label>
+            <input type="text" required value="<%-driver.driver_password%>" name="driver_password" class="form-control">
+        </div> 
+        <div class="col-md-4 mb-3">
+            <label class="mb-2"> Avilable status* :</label>
+            <!-- <input type="text" required value="<%-driver.driver_password%>" name="driver_password" class="form-control"> -->
+             <select class="form-control" required name="driver_available_status">
+<option value="" selected disabled>Select Status </option>
+<option value="true" <%-(driver.driver_available_status=='true')?'selected':''%>>Avilable</option>
+<option value="false" <%-(driver.driver_available_status=='false')?'selected':''%>> Not Avilable</option>
+   
+</select>
+        </div> 
+
+        <div class="col-md-12 text-center mt-3">
+            <%if(driver.driver_kyc==null){%>
+       
+                <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  kyc
+  </button>
+  
+  <!-- Modal -->
+ 
+                <%}else{%>
+                    <a href="/driver/kyc-details/<%-driver.driver_details_id%>" class="btn btn-primary">Kyc Details</a>
+
+                    <%}%>
+            <button class="btn btn-primary" type="button" onclick="submitForm()" >Update</button>
+            <!-- <button class="btn btn-danger" type="button" onclick="deleteAc('<%-driver.driver_details_id%>')">Delete Account</button> -->
+        </form>
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Add Kyc details</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+<div class="col-md-6 mb-3 text-start">
+    <form method="post" enctype="multipart/form-data" action="/driver/driver-kyc/<%-driver.driver_details_id%>">
+
+
+
+ 
+    <label class="mb-2">Adhaar Number* :</label>
+<input type="number" name="adhaar_num" required class="form-control"/> 
+</div>
+<div class="col-md-6 mb-3 text-start">
+    <label class="mb-2">Adhaar Image* :</label>
+<input type="file" name="ad_img" required class="form-control"/> 
+</div>
+<div class="col-md-6 mb-3 text-start">
+    <label class="mb-2">Pan Number* :</label>
+<input type="text" onkeyup="makeCap(this)" name="pan_num" required class="form-control"/> 
+</div>
+<div class="col-md-6 mb-3 text-start">
+    <label class="mb-2">Pan Image* :</label>
+<input type="file"  name="pn_img" required class="form-control"/> 
+</div>
+<div class="col-md-6 mb-3 text-start">
+    <label class="mb-2">Bank Name* :</label>
+<input type="text" name="bank_name" required class="form-control"/> 
+</div>
+<div class="col-md-6 mb-3 text-start">
+    <label class="mb-2">Bank Account No.* :</label>
+<input type="text"  name="account_num" required class="form-control"/> 
+</div>
+<div class="col-md-6 mb-3 text-start">
+    <label class="mb-2">Bank Ifsc* :</label>
+<input type="text" name="back_ifsc" required class="form-control"/> 
+</div>
+<div class="col-md-6 mb-3 text-start">
+    <label class="mb-2">Passbook Image* :</label>
+<input type="file"  name="ps_img" required class="form-control"/> 
+</div>
+<div class="col-md-12 mb-3 text-start">
+<label class="mb-2">License Image* :</label>
+<input type="file" name="li_img" required class="form-control">
+</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+
+          <button  class="btn btn-primary">Submit</button>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+<script>
+    function submitForm(){
+    let r=confirm('Update Profile ?');
+    if(r==true){
+        document.getElementById("myform").submit();
+    }
+    }
+    function deleteAc(id){
+    let r=confirm('Delete profile ?');
+    if(r==true){
+        location.href='/driver/delete-driver/'+id;
+    }
+    }
+    function setImage(){
+        document.getElementById("pfp").setAttribute("src",URL.createObjectURL(event.target.files[0]));
+    }
+    function makeCap(ele){
+    
+        ele.value=ele.value.toString().toUpperCase();
+    }
+    </script>
+
+<%-include('footer.ejs')%>

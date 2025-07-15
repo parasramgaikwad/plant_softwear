@@ -1,0 +1,35 @@
+<%-include('header.ejs')%>
+<div class="container">
+    <div class="row p-5">
+        <div class="col-md-12 p-4 rounded shadow bg-light">
+            <button class="btn btn-primary" onclick="history.back()"><i class=" fa fa-arrow-left"></i></button>
+
+            <div class="row">
+                <h3 class="m-3 ms-0 mt-5">Import Stock</h3>
+                <div class="col-md-6">
+                    <form method="post" action="/import-stock">
+
+                    <label class="mb-2">Stock Name :</label>
+                    <select class="form-control" name="stock" required>
+                       <option value="" selected disabled>Select stock</option>
+                       <%for(let i of data){%>
+                           <option value="<%-i.stock_id%>"><%-i.stock_name%></option>
+                           <%}%>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="mb-2">Stock Quantity :</label>
+                  <input type="number" name="qty" class="form-control" required/>
+                </div>
+                <div class="col-md-12 mt-3">
+                    <button class="btn btn-primary mt-3" >Save</button>
+                </form>
+
+                </div>
+            </div>
+        
+        </div>
+    </div>
+</div>
+
+<%-include('footer.ejs')%>

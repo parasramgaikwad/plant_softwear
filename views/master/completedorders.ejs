@@ -1,0 +1,180 @@
+<%-include('header.ejs')%>
+<style>
+    .b-tab {
+  
+ 
+  display: none;
+}
+
+.b-tab.active {
+  display: block;
+}
+
+.b-nav-tab {
+  display: inline-block;
+ 
+}
+
+.b-nav-tab.active {
+  
+
+}
+</style>
+<div class="container">
+    <div class="row p-5">
+        <div class="col-md-12 rounded p-4 bg-light">
+            <h3>Completed Orders</h3>
+           
+       
+            <a href="#orange" data-tab="orange" class="b-nav-tab btn btn-outline-primary active">
+               All orders
+              </a>
+              <a href="#green" data-tab="green" class="b-nav-tab btn btn-outline-primary">
+             Pending Payment
+              </a>
+            
+              <div id="orange" class="b-tab active mt-3">
+                <table class="display" id="example">
+                <thead>
+                    <tr>
+                        <th>SrNo</th>
+                        <th>Customer</th>
+                        <th>Product</th>
+                        <th>Qauntity</th>
+                        <th>Total</th>
+                        <th>Paid Amount</th>
+                        <th>Pending Amount</th>
+                        <th>Date</th>
+                        <th>Location</th>
+                        
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%for(let i=0;i<data.length;i++){%>
+                        <tr>
+<td><%-i+1%></td>
+<td>
+    <a href="/edit_cust/<%-data[i].customer_id%>">
+
+   
+    <%-data[i].cust_name%>
+</a>
+</td>
+<td><%-data[i].product_name%></td>
+<td><%-data[i].qty%></td>
+<td>&#8377; <%-data[i].total%></td>
+<td>&#8377; <%-data[i].paid_amount%></td>
+<td>&#8377; <%-data[i].p_amt%></td>
+<td><%-new Date(data[i].p_date).toLocaleDateString();%></td>
+<td>
+    <a href="/images/<%-data[i].l_img%>">
+        <i class="fa fa-image"></i>
+    </a>
+</td>
+<td><a href="/order_bill/<%-data[i].order_id%>/<%-data[i].id%>" class="btn btn-primary">View bill</a></td>
+                        </tr>
+                    
+                    <%}%>
+                </tbody>
+            </table>
+              </div>
+              <div id="green" class="b-tab mt-3 " style="overflow-x: scroll;">
+                <%
+                let count=0;
+                for(let i of data){
+                count=Number(i.p_amt)+Number(count);
+                
+                }%>
+                <div class="row">
+                    <div class="col-md-3 rounded alert alert-primary">
+                        <strong>Total Pending Payment :</strong><br/>
+                        &#8377; <%-count%>
+                    </div>
+                </div>
+                <table class="display" id="example-1">
+                    <thead>
+                        <tr>
+                            <th>SrNo</th>
+                            <th>Customer</th>
+                            <th>Product</th>
+                            <th>Qauntity</th>
+                            <th>Total</th>
+                            <th>Paid Amount</th>
+                            <th>Pending Amount</th>
+                            <th>Date</th>
+                            <th>Location</th>
+                            <th>Clear Payment</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                     
+                        <%for(let i=0;i<data.length;i++){%>
+                            <%if(data[i].p_amt>0){%>
+                            <tr>
+    <td><%-i+1%></td>
+    <td>
+        <a href="/edit_cust/<%-data[i].customer_id%>">
+    
+       
+        <%-data[i].cust_name%>
+    </a>
+    </td>
+    <td><%-data[i].product_name%></td>
+    <td><%-data[i].qty%></td>
+    <td>&#8377; <%-data[i].total%></td>
+    <td>&#8377; <%-data[i].paid_amount%></td>
+    <td>&#8377; <%-data[i].p_amt%></td>
+    <td><%-new Date(data[i].p_date).toLocaleDateString();%></td>
+    <td>
+        <a href="/images/<%-data[i].l_img%>">
+            <i class="fa fa-image"></i>
+        </a>
+    </td>
+    <td><a href="/clear-payment/<%-data[i].id%>" class="btn btn-success">clear</a></td>
+    <td><a href="/order_bill/<%-data[i].order_id%>/<%-data[i].id%>" class="btn btn-primary">View bill</a></td>
+                            </tr>
+                        
+                        <%}}%>
+                    </tbody>
+                </table>
+              </div>
+            
+        </div>
+    </div>
+</div>
+<script>
+   'use strict';
+
+function Tabs() {
+  var bindAll = function() {
+    var menuElements = document.querySelectorAll('[data-tab]');
+    for(var i = 0; i < menuElements.length ; i++) {
+      menuElements[i].addEventListener('click', change, false);
+    }
+  }
+
+  var clear = function() {
+    var menuElements = document.querySelectorAll('[data-tab]');
+    for(var i = 0; i < menuElements.length ; i++) {
+      menuElements[i].classList.remove('active');
+      var id = menuElements[i].getAttribute('data-tab');
+      document.getElementById(id).classList.remove('active');
+    }
+  }
+
+  var change = function(e) {
+    clear();
+    e.target.classList.add('active');
+    var id = e.currentTarget.getAttribute('data-tab');
+    document.getElementById(id).classList.add('active');
+  }
+
+  bindAll();
+}
+
+var connectTabs = new Tabs();
+
+</script>
+<%-include('footer.ejs')%>

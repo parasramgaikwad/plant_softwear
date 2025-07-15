@@ -1,0 +1,99 @@
+<%-include('header.ejs')%>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+<div class="container-fluid py-5">
+    <div class="row p-3">
+        
+        <div class="col-md-12 rounded bg-light p-4 table-responsive" style="overflow-x: scroll;">
+            <h3>TOTAL DELIVERIES</h3>
+         <table class="display" id="example">
+          <thead>
+            <tr>
+                <th>Srno</th>
+                <th>Oder Date</th>
+                <th>Driver</th>
+                <th>Address</th>
+                <th>Status</th>
+                <th>Vehical Number</th>
+                <th>Return Date</th>
+                <th>Expense List</th>
+                <th>Order List</th>
+                <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <%for(let i=0;i<data.length;i++){%>
+               <tr>
+                <td><%-i+1%></td>
+                <td>
+                    <%-data[i].order_date%>
+                </td>
+                <td>
+                 
+                    <a href="/edit_driver_details/<%-data[i].driver%>"><i class="fa fa-circle-info"></i> <%-data[i].driver_name%></a>
+               
+                </td>
+                <td>
+                    <textarea class="form-control" onchange="setAd('<%-data[i].id%>')" >
+                        <%-data[i].address%>
+                    </textarea>
+                  
+                </td>
+                <td>
+                    <%-data[i].status%>
+                </td>
+                <td>
+                    <a href="/edit-vehical/<%-data[i].vehical%>"> <%-data[i].v_num%></a>
+                   
+                </td>
+                <td>
+                    <%-data[i].return_date%>
+                </td>
+                <td>
+                    <a class="btn btn-primary" href="/expense/<%-data[i].id%>">Expense</a>  
+                </td>
+                <td>
+                    <a class="btn btn-primary" href="/order-list/<%-data[i].id%>">Order</a>  
+                </td>
+                <td>
+                    <a href="/delete-order/<%-data[i].id%>/<%-data[i].driver%>" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                </td>
+               </tr> 
+            
+            <%}%>
+          </tbody>
+         </table>
+
+         <button class="btn btn-primary float-end mt-5" onclick="window.print()">Print</button>
+
+         <button id="totdel" class="btn btn-success float-end mt-5 mx-3"> Excel</button>
+         
+        </div>
+    </div>
+</div>
+<script>
+    function setAd(id){
+    $.ajax({
+        "method":"post",
+        "url":"/update-oder-address/"+id,
+        "data":{"address":event.target.value}
+    }).done((res)=>{
+        console.log("done");
+    });
+    }
+    document.getElementById('totdel').addEventListener('click', function () {
+       
+       var table = document.getElementById('example');
+
+     
+       var worksheet = XLSX.utils.table_to_sheet(table);
+
+    
+       var workbook = XLSX.utils.book_new();
+       XLSX.utils.book_append_sheet(workbook, worksheet, 'StockList');
+
+     
+       XLSX.writeFile(workbook, 'StockList.xlsx');
+   });
+</script>
+<%-include('footer.ejs')%>

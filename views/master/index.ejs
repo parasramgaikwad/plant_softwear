@@ -1,0 +1,170 @@
+<%-include('header.ejs')%>
+<h1 class="my-3">Dashboard</h1>
+<div class="container">
+    <div class="row mt-3 mb-3">
+        <div class="col-md-3 p-2">
+            <a href="/driver_list">
+                <div class="card card-body shadow py-3 w-100">
+                <div class="row ">
+                    <div class="hstack gap-3">
+                        <img src="/images/delivery-boy.png" height="60" width="auto">
+                        <div class="vr"></div>
+                        <div class=" text-center jusitfy-content-center">
+                            <h4>Total Drivers</h4>
+                            <h3><%-driver.ttl%></h3>
+                           </div>
+                      </div>
+                </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3 p-2">
+            <a href="/stock_list">
+                <div class="card card-body shadow  py-3 w-100">
+                <div class="row ">
+                    <div class="hstack gap-3">
+                        <img src="/images/packages.png" height="60" width="auto">
+                        <div class="vr"></div>
+                        <div class=" text-center jusitfy-content-center">
+                            <h4>Total Stock</h4>
+                            <h3><%-stock.ttl_stk%></h3>
+                           </div>
+                      </div>
+                </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3 p-2">
+            <a href="/vehical-list">
+                <div class="card card-body shadow  py-3 w-100">
+                <div class="row ">
+                    <div class="hstack gap-3">
+                        <img src="/images/cargo-truck.png" height="60" width="auto">
+                        <div class="vr"></div>
+                        <div class=" text-center jusitfy-content-center">
+                            <h4>Total Vehical</h4>
+                            <h3><%-vehical.ttl_vehical%></h3>
+                           </div>
+                      </div>
+                </div>
+                </div>
+            </a>
+        </div>
+
+
+        <div class="col-md-3 p-2">
+            <a href="/completed-orders">
+                <div class="card card-body shadow  py-3 w-100">
+                    <div class="row ">
+                        <div class="hstack gap-3" >
+                            <img src="/images/checklist.png" height="60" width="auto">
+                            <div class="vr"></div>
+                            <div class=" text-center jusitfy-content-center">
+                                <h4>Total Order</h4>
+                                <h3><%-ttl_order.ttl_order%></h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3 p-2" style="position: relative;">
+        <a href="/order-complete-request">
+        <%if(reqs.ttl>0){%>
+            <div style="position: absolute;right: 13px;top: 13px;padding: 4px;z-index: 99;border-radius: 50%;height: auto; width: auto;" class="bg-danger"></div>
+
+            <%}%>
+           
+                <div class="card card-body shadow  py-3 w-100">
+                    <div class="row ">
+                        <div class="hstack gap-3" >
+                            <img src="/images/checklist.png" height="60" width="auto">
+                            <div class="vr"></div>
+                            <div class=" text-center jusitfy-content-center">
+                                <h4> Complition Requests</h4>
+                                <h3><%-reqs.ttl%></h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3 p-2">
+            <a href="/customer_list">
+                <div class="card card-body shadow  py-3 w-100">
+                    <div class="row ">
+                        <div class="hstack gap-3" >
+                            <img src="/images/checklist.png" height="60" width="auto">
+                            <div class="vr"></div>
+                            <div class=" text-center jusitfy-content-center">
+                                <h4>Total Customer</h4>
+                                <h3><%-cust.ttlc%></h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-3 p-2" style="position: relative;">
+            <a href="/leaves">
+            <%if(leaveReq.ttl>0){%>
+                <div style="position: absolute;right: 13px;top: 13px;padding: 4px;z-index: 99;border-radius: 50%;height: auto; width: auto;" class="bg-danger"></div>
+    
+                <%}%>
+               
+                    <div class="card card-body shadow  py-3 w-100">
+                        <div class="row ">
+                            <div class="hstack gap-3" >
+                                <img src="/images/delivery-boy.png" height="60" width="auto">
+                                <div class="vr"></div>
+                                <div class=" text-center jusitfy-content-center">
+                                    <h4> Leave Requests</h4>
+                                    <h3><%-leaveReq.ttl%></h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+        
+
+        
+
+
+       
+
+    </div>
+    
+    <div class="row pb-3 ">
+        <div class="col-md-6 bg-white p-2 rounded-2 shadow">
+            <h3 class="ms-3">Orders</h3>            
+            <div class="row m-0">
+                <div class="col-md-6">
+                    <div class="hstack gap-3 card card-body bg-transparent shadow-none" >
+                        <img src="/images/box.png" height="60" width="auto">
+                        <div class="vr text-primary"></div>
+                        <div class=" text-center jusitfy-content-center">
+                            <h6>Pending Order</h6>
+                            <h3><%-vdp.ttlp%></h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="hstack gap-3 card card-body bg-transparent shadow-none" >
+                        <img src="/images/booking.png" height="60" width="auto">
+                        <div class="vr text-primary" style="width: 0.5px;"></div>
+                        <div class=" text-center jusitfy-content-center">
+                            <h6>Completed Order</h6>
+                            <h3><%-vda.ttla%></h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<%-include('footer.ejs')%>

@@ -1,0 +1,84 @@
+<%-include("header.ejs")%>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+
+<div class="container  my-3 table-responsive">
+   
+    <div class="row p-3">
+        <div class="col-md-12 rounded p-3 bg-light" style="overflow-x: scroll;">
+            <h3 class="my-3">STOCK LIST</h3>
+            <table class="display" id="example" >
+                <thead>
+                    <tr>
+                        <th>SR</th>
+                        <th>Action</th>
+                        <th>Stock Name</th>
+                        
+                        <th>Stock Quantity</th>
+                        <th>Price Per Cylender</th>
+                        <th>Stock Date</th>
+                    </tr>
+                </thead>
+               <tbody>
+        
+            
+                <% stock.map((row,i)=>{ %>
+                    <tr>
+                        <th><%-i+1%></th>
+                        <th>
+                            <a href="/edit_stock/<%-row.stock_id%>">
+                                <button class="btn btn-sm btn-primary">Edit</button>
+                            </a>
+                         
+                            <button class="btn btn-sm btn-danger" onclick="deletestock('<%-row.stock_id%>')">Delete</button>
+                           
+                            
+                        </th>
+                        <th><%-row.stock_name%></th>
+                        <th><%-row.stock_qty%></th>
+                        <th>&#8377; <%-row.price%></th>
+                       
+                        <th><%-row.stock_date%></th>
+                    </tr>
+                <% }) %>
+            </tbody>
+            </table>
+            <button class="btn btn-primary float-end mt-5" onclick="window.print()">Print</button>
+
+            <button id="exportExcel" class="btn btn-success float-end mt-5 mx-3"> Excel</button>
+
+           
+        </div>
+    </div>
+   
+</div>
+
+
+<script>
+    document.getElementById('exportExcel').addEventListener('click', function () {
+       
+        var table = document.getElementById('example');
+
+      
+        var worksheet = XLSX.utils.table_to_sheet(table);
+
+     
+        var workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'StockList');
+
+      
+        XLSX.writeFile(workbook, 'StockList.xlsx');
+    });
+
+    function deletestock(id){
+        let r=confirm('Delete Stock ?');
+        if(r==true){
+            location.href='/delete_stock/'+id;
+        }
+    }
+    
+</script>
+
+
+
+<%-include("footer.ejs")%>

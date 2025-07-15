@@ -1,0 +1,31 @@
+<%-include('header.ejs')%>
+<div class="container">
+    <div class="row p-5">
+        <div class="col-md-12 p-4 rounded bg-light">
+            <h3>Payment History</h3>
+            <table class="display" id="example">
+                <thead>
+                    <tr>
+                        <th>Month</th>
+                        <th>Per Day</th>
+                        <th>Working Day</th>
+                        <th>Total</th>
+                        <th>Payment Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%for(let i of data){%>
+                        <tr>
+                            <td><%-i.month%></td>
+                        <td>&#8377; <%-i.per_day%></td>
+                        <td><%-i.wday%></td>
+                        <td>&#8377; <%-i.total%></td>
+                        <td><%-i.date%></td>
+                        </tr>
+                        <%}%>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<%-include('footer.ejs')%>

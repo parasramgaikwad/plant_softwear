@@ -1,0 +1,36 @@
+<%-include('header.ejs')%>
+<div class="container">
+    <div class="row p-5">
+        <div class="col-md-12 rounded p-4 bg-light ">
+            <h3>Payment History</h3>
+            <table class="display" id="example">
+                <thead>
+                    <tr>
+                        <th>SrNo</th>
+                        <th>Driver</th>
+                        <th>Salary</th>
+                        <th>Month</th>
+                        <th>Working Day</th>
+                        <th>Total</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%for(let i=0;i<data.length;i++){%>
+<tr>
+    <td><%-i+1%></td>
+    <td><%-data[i].driver_name%></td>
+    <td>&#8377; <%-data[i].payment%></td>
+    <td><%-data[i].month%></td>
+    <td><%-data[i].wday%></td>
+    <td> &#8377; <%-data[i].total%></td>
+    <td><%-data[i].date%></td>
+</tr>
+                    <%}%>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<%-include('footer.ejs')%>

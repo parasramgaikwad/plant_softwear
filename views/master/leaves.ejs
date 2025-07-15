@@ -1,0 +1,131 @@
+<%-include('header.ejs')%>
+<%
+function thisMonthLeave(){
+    let ar=[];
+    for(let i of data){
+      if(new Date(i.date).getUTCMonth()==new Date().getUTCMonth()){
+        ar.push(i);
+      }
+    }
+return ar;
+}
+function otherLeave(){
+    let ar=[];
+    for(let i of data){
+      if(new Date(i.date).getUTCMonth()!=new Date().getUTCMonth()){
+        ar.push(i);
+      }
+    }
+return ar;
+}
+let cur=thisMonthLeave();
+let oth=otherLeave();
+%>
+<div class="container">
+    <div class="row p-5">
+        <div class="col-md-12 p-4  rounded bg-light mb-5" style="overflow-x: scroll;">
+            <h3>Requests</h3>
+            <table class="table table-striped"  >
+<thead>
+    <tr>
+        <th>SrNo</th>
+        <th>Driver</th>
+        <th>Type</th>
+        <th>Date</th>
+        <th>Reason</th>
+        <th>Status</th>
+    </tr>
+</thead>
+<tbody>
+    <%for(let i=0;i<reqs.length;i++){%>
+        <tr>
+            <td><%-i+1%></td>
+            <td><%-reqs[i].driver%></td>
+            <td><%-reqs[i].type%></td>
+            <td><%-reqs[i].date%></td>
+            <td><%-reqs[i].reason%></td>
+            <td>
+
+            <a href="/leave-req/<%-reqs[i].id%>/approved" class="btn btn-success">Approve</a>
+            <a href="/leave-req/<%-reqs[i].id%>/declined" class="btn btn-danger">Decline</a>
+            </td>
+
+
+
+        </tr>
+        
+        
+        <%}%>
+</tbody>
+            </table>
+        </div>
+        <div class="col-md-12 p-4  rounded bg-light" style="overflow-x: scroll;">
+            <h3>This Month Leaves</h3>
+            <table class="table table-striped"  >
+<thead>
+    <tr>
+        <th>SrNo</th>
+        <th>Driver</th>
+        <th>Type</th>
+        <th>Date</th>
+        <th>Reason</th>
+        <th>Status</th>
+    </tr>
+</thead>
+<tbody>
+    <%for(let i=0;i<cur.length;i++){%>
+        <tr>
+            <td><%-i+1%></td>
+            <td><%-cur[i].driver%></td>
+            <td><%-cur[i].type%></td>
+            <td><%-cur[i].date%></td>
+            <td><%-cur[i].reason%></td>
+            <td><%-cur[i].status%></td>
+
+
+
+        </tr>
+        
+        
+        <%}%>
+</tbody>
+            </table>
+        </div>
+        <div class="col-md-12 p-4 mt-5 rounded bg-light" style="overflow-x: scroll;">
+            <h3>Other Leaves</h3>
+            <table class="display" id="example"  >
+<thead>
+    <tr>
+        <th>SrNo</th>
+        <th>Driver</th>
+        <th>Type</th>
+        <th>Date</th>
+        <th>Reason</th>
+        <th>Status</th>
+    </tr>
+</thead>
+<tbody>
+    <%for(let i=0;i<oth.length;i++){%>
+        <tr>
+            <td><%-i+1%></td>
+            <td><%-oth[i].driver%></td>
+            <td><%-oth[i].type%></td>
+     
+            <td><%-oth[i].date%></td>
+            <td><%-oth[i].reason%></td>
+            <td><%-oth[i].status%></td>
+
+
+
+        </tr>
+        
+        
+        <%}%>
+</tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<%-include('footer.ejs')%>

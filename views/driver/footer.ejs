@@ -1,0 +1,117 @@
+</div>
+</div>
+   <!-- Footer -->
+   <footer class="content-footer footer bg-footer-theme">
+    <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+      <div class="mb-2 mb-md-0">
+        ©
+        <script>
+          document.write(new Date().getFullYear());
+        </script>
+        , made with
+        <!-- <a href="https://a2zithub.org/" target="_blank" class="footer-link fw-bolder">A2Z IT HUB</a> by -->
+        <a href="https://a2zithub.org/" target="_blank" class="footer-link fw-bolder">Parasram Gaikwad</a> 
+      </div>
+      <div>
+        <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank"></a>
+        <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More </a>
+
+        <a
+          href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/"
+          target="_blank"
+          class="footer-link me-4"
+          ></a
+        >
+
+        <a
+          href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
+          target="_blank"
+          class="footer-link me-4"
+          ></a
+        >
+      </div>
+    </div>
+  </footer>
+  <!-- / Footer -->
+
+  <div class="content-backdrop fade"></div>
+</div>
+<!-- Content wrapper -->
+</div>
+<!-- / Layout page -->
+</div>
+
+<!-- Overlay -->
+<div class="layout-overlay layout-menu-toggle"></div>
+</div>
+<!-- / Layout wrapper -->
+
+
+
+<!-- Core JS -->
+<!-- build:js assets/vendor/js/core.js -->
+   <!-- jQuery (required for DataTables) -->
+  
+
+ 
+<script src="/assets/vendor/libs/jquery/jquery.js"></script>
+<script src="/assets/vendor/libs/popper/popper.js"></script>
+<script src="/assets/vendor/js/bootstrap.js"></script>
+<script src="/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+<script src="/assets/vendor/js/menu.js"></script>
+<!-- endbuild -->
+
+<!-- Vendors JS -->
+<script src="/assets/vendor/libs/apex-charts/apexcharts.js"></script>
+
+<!-- Main JS -->
+<script src="/assets/js/main.js"></script>
+
+<!-- Page JS -->
+<script src="/assets/js/dashboards-analytics.js"></script>
+
+<!-- Place this tag in your head or just before your close body tag. -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+  <!-- DataTables JS from CDN -->
+  <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+
+  <!-- Initialize DataTable -->
+  <script>
+      $(document).ready(function() {
+          $('#example').DataTable(); // Initialize the table with DataTables
+      });
+  </script>
+<script>
+  function changeActiveMenu(){
+    let url=location.href;
+    
+    if(url.includes("/task")||url.includes("driver_list")||url.includes("edit_driver_details")){
+    document.getElementById("dash").classList.remove("active");
+    document.getElementById("task").classList.add("active");
+    }
+
+    if(url.includes("/completed-task")||url.includes("/order-list/")||url.includes("/order-inv/")||url.includes("/expense-list/")){
+    document.getElementById("dash").classList.remove("active");
+    document.getElementById("c-task").classList.add("active");
+    }
+    if(url.includes("/salary")){
+    document.getElementById("dash").classList.remove("active");
+    document.getElementById("salary").classList.add("active");
+    }
+    if(url.includes("/leave")){
+    document.getElementById("dash").classList.remove("active");
+    document.getElementById("leave").classList.add("active");
+    }
+  }
+
+  changeActiveMenu();
+  function addClasses(){
+    for(let i of document.getElementsByTagName('h3')){
+      i.classList.add('text-primary');
+    }
+  }
+  addClasses();
+</script>
+</body>
+</html>

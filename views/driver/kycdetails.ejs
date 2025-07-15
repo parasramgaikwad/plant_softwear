@@ -1,0 +1,36 @@
+<%-include('header.ejs')%>
+<div class="container">
+    <div class="row p-5">
+        <div class="col-md-12 rounded shadow p-4 bg-light">
+            <h3>Driver Kyc Details</h3>
+
+            <i class="fa fa-phone"></i> : +91 <%-driver.driver_mobile%><br/>
+
+            <font class="text-secondary">Name :<%-driver.driver_name%></font>
+            <br/>
+
+            <font class="text-secondary">PAN Number :<%-kyc.pan_num%></font>
+            <br/>
+            <font class="text-secondary">Adhaar Number :<%-kyc.adhaar_num%></font>
+            <br/>
+            <font class="text-secondary">Bank Name :<%-kyc.bank_name%></font>
+            <br/>
+            <font class="text-secondary">Bank Account Number :<%-kyc.account_num%></font>
+            <br/>
+            <font class="text-secondary">Bank Ifsc :<%-kyc.back_ifsc%></font>
+<br>
+<br>
+<a href="/images/<%-kyc.adhaar_img%>"  target="_blank"><i class="fa fa-image"></i> Adhaar Card</a><br>
+
+<a href="/images/<%-kyc.pan_img%>"  target="_blank"><i class="fa fa-image"></i> Pan Card</a>
+<br>
+<a href="/images/<%-kyc.passbook_img%>"  target="_blank"><i class="fa fa-image"></i> Bank Passbook</a>
+<br>
+<a href="/images/<%-kyc.licen_img%>"  target="_blank"><i class="fa fa-image"></i> License Card</a>
+
+
+        </div>
+    </div>
+</div>
+
+<%-include('footer.ejs')%>

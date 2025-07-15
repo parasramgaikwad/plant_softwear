@@ -1,0 +1,93 @@
+<%-include('header.ejs')%>
+<div class="contaier">
+    <div class="row p-5">
+        <div class="col-md-12 p-4 rounded bg-light">
+<h3>Driver Payment</h3>
+<div class="row">
+    <div class="col-md-4 mb-3">
+        
+        <label class="mb-2">Driver* :</label>
+        <select name="driver" required onchange="setDriver()" class="form-control">
+            <option disabled value="" selected>select driver</option>
+            <%for(let i of driver){%>
+                <option value="<%-i.driver_details_id%>"><%-i.driver_name%></option>
+                <%}%>
+        </select>
+    </div>
+    <div class="col-md-4 mb-3">
+        <label class="mb-2">Salary per month (&#8377;)* :</label>
+      <input type="text" readonly name="payment"  id="payment" class="form-control">
+    </div><div class="col-md-4 mb-3">
+        <label class="mb-2">Salary per day (&#8377;)* :</label>
+      <input type="text" readonly name="per_day"  id="per_day" class="form-control">
+    </div>
+    <div class="col-md-4 mb-3">
+        <label class="mb-2">Month* :</label>
+      <input type="month"  name="month" id="month" onchange="setSal()" class="form-control">
+    </div>
+    <div class="col-md-4 mb-3">
+        <label class="mb-2">Total Working Day* :</label>
+      <input type="text" readonly name="wday"  id="wday" class="form-control">
+    </div>
+    <div class="col-md-4 mb-3">
+        <label class="mb-2">Total salary (&#8377)* :</label>
+      <input type="text" readonly name="total"  id="total" class="form-control">
+    </div>
+    <div class="col-md-12 mt-3">
+        <button class="btn btn-primary" onclick="sendData()">Pay Driver</button>
+    </div>
+</div>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+    function setDriver(){
+        let ar=<%-JSON.stringify(driver)%>
+      for(let i of ar){
+    
+        if(i.driver_details_id==event.target.value){
+
+        document.getElementById("payment").value=i.salary;
+        document.getElementById("per_day").value=Math.floor(document.getElementById("payment").value/30);
+        }
+      }
+
+    }
+    function setSal(){
+        let ar=<%-JSON.stringify(leave)%>
+        
+        let count=0;
+        for(let i of ar){
+            if(i.did==document.getElementsByName("driver")[0].value&&i.status=='approved'){
+             if(new Date(i.date).getMonth()==new Date(event.target.value).getMonth()){
+count++;
+             }
+            }
+        }
+      document.getElementById("wday").value=28-count;
+    document.getElementById("total").value=document.getElementById("per_day").value* document.getElementById("wday").value;
+    
+    }
+function sendData(){
+    let obj={
+        "driver":document.getElementsByName("driver")[0].value,
+        "payment":document.getElementById("payment").value,
+        "per_day":document.getElementById("per_day").value,
+"month":document.getElementById("month").value,
+"wday":document.getElementById("wday").value,
+"total":document.getElementById("total").value,
+    }
+$.ajax({
+    "method":"post",
+    "url":"/save-payment/"+document.getElementsByName("driver")[0].value,
+    "data":obj
+}).done(res=>{
+    alert('Payment Successful');
+    location.reload();
+
+})
+
+}
+</script>
+<%-include('footer.ejs')%>

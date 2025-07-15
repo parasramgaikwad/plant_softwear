@@ -1,0 +1,122 @@
+<%-include('header.ejs')%>
+<%
+function thisMonthLeave(){
+    let ar=[];
+    for(let i of data){
+      if(new Date(i.date).getUTCMonth()==new Date().getUTCMonth()){
+        ar.push(i);
+      }
+    }
+return ar;
+}
+function otherLeave(){
+    let ar=[];
+    for(let i of data){
+      if(new Date(i.date).getUTCMonth()!=new Date().getUTCMonth()){
+        ar.push(i);
+      }
+    }
+return ar;
+}
+let cur=thisMonthLeave();
+let oth=otherLeave();
+%>
+<div class="container">
+    <div class="row p-5">
+        
+        <div class="col-md-12 p-4 rounded bg-light">
+            <h3>Leave Request</h3>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <form method="post" action="/driver/add-leave">
+
+                   
+                    <label>Leave Date* :</label>
+                    <input type="date" class="form-control" required name="date">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label>Leave Type* :</label>
+                <select class="form-control" required name="type">
+                    <option value="" selected disabled>select leave type</option>
+                    <option>Sick Leave</option>
+                    <option>Marraige Leave</option>
+                    <option>Casual Leave</option>
+                </select>
+                </div>
+                <div class="col-md-12 mb-3">
+                    <label class="mb-2">Leave Reason :</label>
+                    <textarea class="form-control" name="reason" ></textarea>
+                </div>
+                <div class="col-md-12 text-center mt-3">
+                    <button type="submit"  class="btn btn-primary">Request Leave</button>
+                </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 p-4 mt-5 rounded bg-light" style="overflow-x: scroll;">
+            <h3>This Month Leaves</h3>
+            <table class="table table-striped"  >
+<thead>
+    <tr>
+        <th>SrNo</th>
+        <th>Type</th>
+        <th>Date</th>
+        <th>Reason</th>
+        <th>Status</th>
+    </tr>
+</thead>
+<tbody>
+    <%for(let i=0;i<cur.length;i++){%>
+        <tr>
+            <td><%-i+1%></td>
+            <td><%-cur[i].type%></td>
+            <td><%-cur[i].date%></td>
+            <td><%-cur[i].reason%></td>
+            <td><%-cur[i].status%></td>
+
+
+
+        </tr>
+        
+        
+        <%}%>
+</tbody>
+            </table>
+        </div>
+        <div class="col-md-12 p-4 mt-5 rounded bg-light" style="overflow-x: scroll;">
+            <h3>Other Leaves</h3>
+            <table class="display" id="example"  >
+<thead>
+    <tr>
+        <th>SrNo</th>
+        <th>Type</th>
+        <th>Date</th>
+        <th>Reason</th>
+        <th>Status</th>
+    </tr>
+</thead>
+<tbody>
+    <%for(let i=0;i<oth.length;i++){%>
+        <tr>
+            <td><%-i+1%></td>
+            <td><%-oth[i].type%></td>
+            <td><%-oth[i].date%></td>
+            <td><%-oth[i].reason%></td>
+            <td><%-oth[i].status%></td>
+
+
+
+        </tr>
+        
+        
+        <%}%>
+</tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    console.log(new Date("/18/2025").getUTCMonth());
+</script>
+
+<%-include('footer.ejs')%>

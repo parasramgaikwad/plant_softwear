@@ -1,0 +1,209 @@
+<%-include('header.ejs')%>
+<div class="container py-5">
+    <div class="row">
+        
+        <div class="col-md-12 rounded bg-light p-4" >
+            <h3 >ADD DELIVERY</h3>
+        <h4>DILEVERY &  ADDRESS DETAILS </h4>
+           <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="mb-2">Order Date* :</label>
+                <input type="date" class="form-control" id="oder_date" required/>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="mb-2">Driver* :</label>
+              
+                <select class="form-control" required id="driver">
+                   <option value="" disabled selected>Select driver</option>
+                   <%for(let i of driver){%>
+                    <option value="<%-i.driver_details_id%>" ><%-i.driver_name%></option>
+                    <%}%>
+                </select>
+
+            </div>
+            <div class="col-md-12 mb-3">
+                <label class="mb-2">Order Address* :</label>
+             
+                <textarea rows="5" class="form-control" id="addr" required></textarea>
+            </div>
+        
+           </div>
+        </div>
+        <div class="col-md-12 rounded bg-light p-4 mt-5" style="overflow-x:scroll;" >
+            <h4>PRODUCT DETAILS</h4>
+            <table class="table mt-4 table-striped">
+                <tr>
+                    <th>Customer</th>
+                    <th>Address</th>
+                    <th>Product</th>
+                    <th>Qauntity</th>
+                   <th>Total</th>
+                    <th>
+                        <button class="btn btn-primary" onclick="addRow()">+</button>
+                    </th>
+                </tr>
+                <tbody id="tbody">
+
+                </tbody>
+            
+                
+            </table>
+            <button class="btn btn-success mt-5" onclick="sendData()" id="subbtn" disabled>Procceed</button>
+        </div>
+    </div>
+</div>
+<script>
+     let j=0;
+     function setCust(){
+        let ar=  <%- JSON.stringify(cust) %>;
+        
+        for(let i of ar){
+            if(event.target.value==i.cust_id){
+
+             document.getElementById("cust_add-"+event.target.id.split('-')[1]).innerText=i.cust_add;
+            }
+        }
+       
+     }
+    function addRow(){
+       
+        $("#tbody").append(`
+          <tr>
+             <td>
+                <select name="cust_id" id="cust-${j}" onchange="setCust()" class="form-control">
+                    <option value="" selected disabled>Select customer</option>
+                  <%for(let i of cust){%>
+                   <option value="<%-i.cust_id%>" ><%-i.cust_name%></option>
+                  
+                  <%}%>
+                  
+                    </select>
+                
+                </td>
+                <td>
+                    <textarea name="cust_add" id="cust_add-${j}" class="form-control"></textarea>
+                    </td>
+            <td>
+                <select name="product" id="product-${j}" onchange="setProduct()" class="form-control">
+                    <option value="" selected disabled>Select product</option>
+                  <%for(let i of product){%>
+                   <option value="<%-i.stock_id%>" ><%-i.stock_name%></option>
+                  
+                  <%}%>
+                  
+                    </select>
+                
+                </td>
+                <td>
+                    <input type="number" placeholder="Quantity" id="qty-${j}" onkeyup="setQty()" class="form-control" name="qty" >
+                    </td>
+                    <td>
+                        <input type="number" readonly id="ttl-${j}" class="form-control" name="ttl">
+                        </td>
+                 
+                        <td>
+                            <button class="btn btn-danger" onclick="deleteRow()"><i class="fa fa-trash"></i></button>
+                            </td>
+            </tr>
+       
+        `)
+        j++;
+toggleBtn()
+    }
+
+
+
+    
+function toggleBtn(){
+if(j>0){
+document.getElementById("subbtn").disabled=false;
+}
+else{
+    document.getElementById("subbtn").disabled=true;
+
+}
+}
+function deleteRow(){
+    event.target.closest('tr').remove();
+    j--;
+    toggleBtn()
+}
+function sendData(){
+    let obj={
+        "driver":document.getElementById("driver").value,
+        "order_date":document.getElementById("oder_date").value,
+        "route":document.getElementById("addr").value,
+        "product":[],
+        "qty":[],
+        "customer":[],
+        "address":[],
+        "total":[]
+    }
+   
+    let pro=document.getElementsByName("product");
+    let qty=document.getElementsByName("qty");
+    let cust=document.getElementsByName("cust_id");
+    let add=document.getElementsByName("cust_add");
+    let ttl=document.getElementsByName("ttl");
+    for(let i of pro){
+        obj.product.push(i.value);
+    }
+    for(let i of qty){
+        obj.qty.push(i.value);
+    }
+    for(let i of cust){
+        obj.customer.push(i.value);
+    }
+    for(let i of add){
+        obj.address.push(i.value);
+    }
+    for(let i of ttl){
+   obj.total.push(i.value);
+    }
+    $.ajax({
+        "method":"post",
+        "url":"/save-delivery",
+        "data":obj
+    }).done((res)=>{
+      location.href="/delivery-list"
+    })
+}
+function setProduct(){
+    let index=event.target.id.split("-")[1];
+    setTotal(index);
+}
+function setQty(){
+    let index=event.target.id.split("-")[1];
+    let pro=document.getElementById("product-"+index).value;
+    let pr=  <%- JSON.stringify(product) %>;
+    for(let i of pr){
+        
+        if(i.stock_id==pro){
+            
+            if(Number(i.stock_qty)<=Number(event.target.value)){
+            console.log(i.stock_qty+"---------"+event.target.value)
+               alert("This Product is out of stock only "+i.stock_qty+" cylenders are remaining...");
+              document.getElementById('subbtn').disabled=true;
+            }
+            else{
+                document.getElementById('subbtn').disabled=false;
+
+            }
+        }
+    }
+
+setTotal(index);
+}
+function setTotal(ind){
+    let pro=document.getElementById("product-"+ind).value;
+    let qty=document.getElementById("qty-"+ind).value;
+    let pr=  <%- JSON.stringify(product) %>;
+for(let i of pr){
+    if(i.stock_id==pro){
+        console.log('helo');
+        document.getElementById("ttl-"+ind).value=qty*i.price;
+    }
+}
+    }
+</script>
+<%-include('footer.ejs')%>
