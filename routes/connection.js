@@ -2,15 +2,15 @@ const mysql = require('mysql');
 const util = require('util');
 
 const conn = mysql.createConnection({
-    host:"localhost",
-    user:"root",
-    password:"",
-    database:"plant_softwear"
+    // host:"localhost",
+    // user:"root",
+    // password:"",
+    // database:"plant_softwear"
 
-    // host: "bun9fq9ycki9avlxsm6h-mysql.services.clever-cloud.com",
-    // user: "uhfctuxbu0ljcj9m",
-    // password: "s97lFinSkHJXw8Mmwq2c",
-    // database: "bun9fq9ycki9avlxsm6h",
+     host: "bsykq4fotenahhjywzfd-mysql.services.clever-cloud.com",
+     user: "unjxfk9e7iphtdvd",
+     password: "b0hkuoWQ23Pa7Pr9RTjz",
+     database: "bsykq4fotenahhjywzfd",
     
 });
 
