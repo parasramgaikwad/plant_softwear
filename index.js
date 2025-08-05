@@ -6,7 +6,6 @@ let driver=require('./routes/Driver');
 app.use(express.static("public/"));
 let upload=require('express-fileupload');
 let master=require("./routes/master");
-
 app.use(upload());
 app.use(session({
     secret:'1234',
